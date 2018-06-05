@@ -18,3 +18,8 @@ def rev_complement(s):
 def canon(s):
     cmpl = compliment(s)
     return s if s < cmpl else cmpl
+
+def compif(s, i):
+    if i != '1' and i != '2':
+        raise ValueError()
+    return s if i == '1' else rev_complement(s)

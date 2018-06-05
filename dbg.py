@@ -8,6 +8,7 @@ De Brujin Graph
 """
 
 from gene import *
+import collections
 
 class Edge:
     def __init__(self, seq1, seq2, ori):
@@ -77,7 +78,76 @@ class DBG:
     def graph_simplification(self):
         """
         simplify the graph by merging nodes
+        implemented with BFS
         """
+
+        visit = {} # key is seq, not vertex
+
+        def simplify_path(v, in_ori):
+            """
+            simplify a chain that starts from the v
+            return a new vertex and final visited node
+            """
+            seqs = []
+            final_edge = None
+            while len(v.out_edge) <= 2:
+                if not seqs:
+                    seqs.extend(list(compif(v.seq, in_ori)))
+                else:
+                    seqs.append(compif(v.seq, in_ori)[0])
+                visit[v] = True
+
+                next_edge = None
+                for edge in v.out_edge.values():
+                    if in_ori == edge.ori[0] and edge.seq2 not in visit: # compatible
+                        next_edge = edge
+                        break
+                if next_edge is None:
+                    v = None
+                    final_edge = None
+                    break
+
+                v = self.v[next_edge.seq2]
+                final_edge = next_edge.seq2
+                in_ori = edge.ori[1]
+            
+            return v, ''.join(seqs), final_edge
+
+        def merge(s,e,new_seq, first_edge_seq,final_edge_seq):
+            self.add_vertex(new_seq)
+            s.out_edge.pop(first_edge_seq)
+            self.add_edge(s.seq, new_seq)
+            if e is not None:
+                e.out_edge.pop(rev_complement(final_edge_seq))
+                self.add_edge(new_seq, e.seq)
+
+        while True:
+            # initialize
+            q = collections.deque()
+            first_item = None
+            for k in self.v:
+                if len(self.v[k].out_edge) != 2 and not visit[k]:
+                    first_item = self.v[k]
+                    break
+            if first_item is None:
+                break
+            q.append(first_item)
+
+            while len(q):
+                v = q.popleft()
+                visit[v.seq] = True
+                for edge in v.out_edge:
+                    ori = edge.ori[1]
+                    next_v, seq, final_edge_seq = simplify_path(v, ori)
+                    merge(v, next_v, seq, v.seq, final_edge_seq)
+                    if next_v is not None:
+                        q.append(next_v)
+        
+    def output_edges():
+
+
+        
+
 
 
 
