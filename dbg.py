@@ -110,7 +110,7 @@ class DBG:
         simplify the graph by merging nodes
         implemented with BFS
         """
-
+        contigs = []
         visit = {} # key is seq, not vertex
         print(len(self.v))
         def simplify_path(v, in_ori):
@@ -151,6 +151,7 @@ class DBG:
             if e is not None:
                 e.out_edge.pop(final_edge_seq)
                 self.add_edge(new_seq, e.seq)
+
         cnt = 0
         while True:
             # initialize
@@ -175,24 +176,33 @@ class DBG:
                 for edge in v.out_edge.values():
                     ori = edge.ori[1]
                     next_v, seq, final_edge_seq = simplify_path(self.v[edge.seq2], ori)
+                    seq_head = compif(edge.seq1, edge.ori[0])[0]
+                    seq_tail = ''
                     if seq:
                         merge(v, next_v, seq, edge.seq2, final_edge_seq)
                     if next_v is not None and next_v.seq not in visit:
                         q.append(next_v)
-        
-    def output_edges(self):
-        """
-        output contigs, split at each node whose degree is not 2
-        """
-        visit = {}
+                    if next_v is not None:
+                        for edge in next_v.out_edge.values():
+                            if edge.seq2 == final_edge_seq:
+                                seq_tail = compif(edge.seq1, '1' if edge.ori[0] == '2' else '1')[-1]
+                    contig = seq_head + seq + seq_tail
+                    contigs.append(contig)
+        return contigs
+
 
 def write_fa(f, lines):
     for i,line in enumerate(lines):
-        f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
-        f.write(line)
+        #if len(line) < 100:
+        #    continue
+        #f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
+        f.write('>xxx\n')
+        f.write(line.strip()+'\n')
+        f.write('>xxx\n')
+        f.write(rev_complement(line.strip())+'\n')
 
 if __name__ == '__main__':
-    g = DBG(k=63)
+    g = DBG(k=17)
     reads = read_fasta('data/data1/short_1.fasta')
     reads += read_fasta('data/data1/short_2.fasta')
     for i,read in enumerate(reads):
@@ -200,10 +210,10 @@ if __name__ == '__main__':
         print(i)
         #if i == 700:
         #    break
-    g.graph_simplification()
-    path = g.dfs_graph()
-    f = open('debug2.txt','w')
-    write_fa(f, path)
+    contigs = g.graph_simplification()
+    #path = g.dfs_graph()
+    f = open('result/data1.txt','w')
+    write_fa(f, contigs)
         
     
 
