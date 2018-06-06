@@ -1,5 +1,5 @@
 #!/bin/sh
-contig_path="debug2.txt"
+contig_path="result/data1.txt"
 data_dir="data/data1"
 
 cd ./external/dbg2olc/
@@ -10,3 +10,5 @@ cp ./external/dbg2olc/backbone_raw.fasta ./external/sparc
 cat ${contig_path} ${data_dir}/long.fasta > ./external/sparc/all_ctg.fasta
 cd ./external/sparc
 ./split_and_run_sparc.sh backbone_raw.fasta DBG2OLC_Consensus_info.txt all_ctg.fasta ./consensus_dir
+cd ../../
+cat ./external/sparc/consensus_dir/final_assembly.fasta ${contig_path} > result/full.txt

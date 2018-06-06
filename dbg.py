@@ -88,6 +88,48 @@ class DBG:
                     node_stack.append((self.v[edge.seq2], edge.ori[1]))
         return full_path
 
+    def get_contig_wrapper(self, start_node, visit, start_ori):
+        node_stack = collections.deque()
+        node_stack.append((start_node, start_ori))
+        contigs = []
+        a = 0
+        # stack stores nodes whose degree != 2
+        while len(node_stack):
+            a += 1
+            b = 0
+            node, ori = node_stack.pop()
+            visit.add((node.seq, ori))
+            print(len(self.v), len(visit), a)
+            for edge in node.out_edge.values():
+                # travel until degree > 2 or degree = 1
+
+                if edge.ori[0] == ori:
+                    path = []
+                    t_ori = edge.ori[1]
+                    v = self.v[edge.seq2]
+                    while True:
+                        b += 1
+                        #print(len(self.v), len(visit), a,b)
+                        path.append(compif(v.seq, t_ori)[-1])
+                        if (v.seq, t_ori) in visit:
+                            break
+                        visit.add((v.seq, t_ori))
+                        if len(v.out_edge) != 2:
+                            if len(v.out_edge) > 2:
+                                node_stack.append((v, t_ori))
+                            break
+                        else:
+                            next_v = None
+                            for edge_ in v.out_edge.values():
+                                if edge_.ori[0] == t_ori:
+                                    next_v = self.v[edge_.seq2]
+                                    t_ori = edge_.ori[1]
+                                    break
+                            if next_v is None:
+                                break
+                            v = next_v
+                    contigs.append(compif(node.seq, ori) + ''.join(path))
+        return contigs           
 
     def dfs_graph(self):
         visit = {}
@@ -103,8 +145,65 @@ class DBG:
             path = self.dfs_wrapper(start_node, visit, '1')
             all_path.append(''.join(path)+'\n')
         return all_path
-            
+        
 
+    def get_contig_graph(self):
+        """
+        dfs and store any unambiguous contig
+        """
+        visit = set()
+        all_path = []
+        c = 0
+        while True:
+            c += 1
+            print(c,len(self.v),len(visit))
+            start_node = None
+            for k in self.v:
+                if (k,'1') not in visit and len(self.v[k].out_edge)!=2:
+                    start_node = self.v[k]
+                    break
+            if not start_node:
+                break
+            paths = self.get_contig_wrapper(start_node, visit, '1')
+            all_path.extend(paths)
+
+            for k in self.v:
+                if (k,'2') not in visit and len(self.v[k].out_edge)!=2:
+                    start_node = self.v[k]
+                    break
+            if not start_node:
+                break
+            paths = self.get_contig_wrapper(start_node, visit, '2')
+            all_path.extend(paths)
+        return all_path
+
+def write_fa(f, lines):
+    for i,line in enumerate(lines):
+        #if len(line) < 100:
+        #    continue
+        f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
+        #f.write('>xxx\n')
+        f.write(line.strip()+'\n')
+        f.write('>xxx\n')
+        f.write(rev_complement(line.strip())+'\n')
+
+if __name__ == '__main__':
+    g = DBG(k=51)
+    reads = read_fasta('data/data2/short_1.fasta')
+    reads += read_fasta('data/data2/short_2.fasta')
+    #reads = ['ATCGA']
+    for i,read in enumerate(reads):
+        g.add_read(read)
+        print(i)
+        #if i == 10000:
+        #    break
+    #contigs = g.graph_simplification()
+    contigs = g.get_contig_graph()
+    #contigs = g.dfs_graph()
+    f = open('result/data2.txt','w')
+    write_fa(f, contigs)
+
+'''
     def graph_simplification(self):
         """
         simplify the graph by merging nodes
@@ -118,6 +217,7 @@ class DBG:
             simplify a chain that starts from the v
             return a new vertex and final visited node, 
             """
+            turn_visit = {}
             seqs = []
             final_edge = None
             while len(v.out_edge) <= 2:
@@ -126,10 +226,10 @@ class DBG:
                 else:
                     seqs.append(compif(v.seq, in_ori)[-1])
                 visit[v.seq] = True
-
+                turn_visit[v.seq] =
                 next_edge = None
                 for edge in v.out_edge.values():
-                    if in_ori == edge.ori[0] and edge.seq2 not in visit: # compatible
+                    if in_ori == edge.ori[0] and edge.seq2 not in turn_visit: # compatible
                         next_edge = edge
                         break
                 if next_edge is None:
@@ -189,31 +289,7 @@ class DBG:
                     contig = seq_head + seq + seq_tail
                     contigs.append(contig)
         return contigs
-
-
-def write_fa(f, lines):
-    for i,line in enumerate(lines):
-        #if len(line) < 100:
-        #    continue
-        #f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
-        f.write('>xxx\n')
-        f.write(line.strip()+'\n')
-        f.write('>xxx\n')
-        f.write(rev_complement(line.strip())+'\n')
-
-if __name__ == '__main__':
-    g = DBG(k=17)
-    reads = read_fasta('data/data1/short_1.fasta')
-    reads += read_fasta('data/data1/short_2.fasta')
-    for i,read in enumerate(reads):
-        g.add_read(read)
-        print(i)
-        #if i == 700:
-        #    break
-    contigs = g.graph_simplification()
-    #path = g.dfs_graph()
-    f = open('result/data1.txt','w')
-    write_fa(f, contigs)
+'''
         
     
 
