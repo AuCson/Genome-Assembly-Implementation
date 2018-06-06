@@ -1,5 +1,6 @@
 import numpy as np
 import time
+from gene import read_fasta
 
 def find_back_dp(path,lp,ls):
     i,j = lp,ls
@@ -62,20 +63,6 @@ def approximate_find(pat, seq, TOL=2):
     p = find_back_dp(path, max_idx[0], max_idx[1])
     print(dp.max())
 
-def read_fasta(path):
-    f = open(path)
-    l = []
-    s = ''
-    for line in f.readlines():
-        if line.startswith('>'):
-            if s:
-                l.append(s)
-            s = ''
-        else:
-            s += line.strip()
-    if s:
-        l.append(s)
-    return l
 
 def main():
     fa = read_fasta('./data/data1/graph_prefix.contig')

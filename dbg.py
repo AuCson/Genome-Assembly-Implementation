@@ -15,7 +15,7 @@ class Edge:
         # seq1 --> seq2
         self.seq1 = seq1
         self.seq2 = seq2
-        self.ori = '' # '11','12','21','22'
+        self.ori = ori # '11','12','21','22'
         self.cov = 1
 
 class Vertex:
@@ -59,7 +59,7 @@ class DBG:
         else:
             self.v[ckmer1].out_edge[ckmer2].cov += 1
         if ckmer1 not in self.v[ckmer2].out_edge:
-            self.v[ckmer2].out_edge[ckmer1] = Edge(ckmer2, ckmer1, ori2 + ori1)
+            self.v[ckmer2].out_edge[ckmer1] = Edge(ckmer2, ckmer1, revori(ori1 + ori2))
         else:
             self.v[ckmer2].out_edge[ckmer1].cov += 1
 
@@ -71,9 +71,39 @@ class DBG:
             kmer1 = read[i:i+self.k]
             kmer2 = read[i+1:i+self.k+1]
             self.add_vertex(kmer1)
+            self.add_vertex(kmer2)
             self.add_edge(kmer1, kmer2)
-        self.add_vertex(kmer2)
-        self.add_edge(kmer1, kmer2)
+
+    def dfs_wrapper(self, start_node, visit, start_ori):
+        #path = list(start_node.seq[:-1])
+        full_path = list(start_node.seq[:-1])
+        node_stack = collections.deque()
+        node_stack.append((start_node, start_ori))
+        while len(node_stack):
+            node, ori = node_stack.pop()
+            full_path.extend(list(node.seq[self.k-1:]))
+            visit[node.seq] = True
+            for edge in node.out_edge.values():
+                if edge.ori[0] == ori and edge.seq2 not in visit:
+                    node_stack.append((self.v[edge.seq2], edge.ori[1]))
+        return full_path
+
+
+    def dfs_graph(self):
+        visit = {}
+        all_path = []
+        while True:
+            start_node = None
+            for k in self.v:
+                if k not in visit:
+                    start_node = self.v[k]
+                    break
+            if not start_node:
+                break
+            path = self.dfs_wrapper(start_node, visit, '1')
+            all_path.append(''.join(path)+'\n')
+        return all_path
+            
 
     def graph_simplification(self):
         """
@@ -82,11 +112,11 @@ class DBG:
         """
 
         visit = {} # key is seq, not vertex
-
+        print(len(self.v))
         def simplify_path(v, in_ori):
             """
             simplify a chain that starts from the v
-            return a new vertex and final visited node
+            return a new vertex and final visited node, 
             """
             seqs = []
             final_edge = None
@@ -94,8 +124,8 @@ class DBG:
                 if not seqs:
                     seqs.extend(list(compif(v.seq, in_ori)))
                 else:
-                    seqs.append(compif(v.seq, in_ori)[0])
-                visit[v] = True
+                    seqs.append(compif(v.seq, in_ori)[-1])
+                visit[v.seq] = True
 
                 next_edge = None
                 for edge in v.out_edge.values():
@@ -106,45 +136,76 @@ class DBG:
                     v = None
                     final_edge = None
                     break
-
+                final_edge = v.seq
                 v = self.v[next_edge.seq2]
-                final_edge = next_edge.seq2
                 in_ori = edge.ori[1]
+                assert(final_edge in v.out_edge)
             
             return v, ''.join(seqs), final_edge
 
         def merge(s,e,new_seq, first_edge_seq,final_edge_seq):
             self.add_vertex(new_seq)
+            visit[canon(new_seq)] = True
             s.out_edge.pop(first_edge_seq)
             self.add_edge(s.seq, new_seq)
             if e is not None:
-                e.out_edge.pop(rev_complement(final_edge_seq))
+                e.out_edge.pop(final_edge_seq)
                 self.add_edge(new_seq, e.seq)
-
+        cnt = 0
         while True:
             # initialize
+            cnt += 1
             q = collections.deque()
             first_item = None
             for k in self.v:
-                if len(self.v[k].out_edge) != 2 and not visit[k]:
+                if len(self.v[k].out_edge) != 2 and k not in visit:
                     first_item = self.v[k]
                     break
             if first_item is None:
                 break
             q.append(first_item)
-
+            cnt2 = 0
             while len(q):
+                print('loop %d %d %d %d' % (cnt, cnt2,len(self.v), len(visit)))
+                cnt2 += 1
                 v = q.popleft()
+                if v.seq in visit:
+                    continue
                 visit[v.seq] = True
-                for edge in v.out_edge:
+                for edge in v.out_edge.values():
                     ori = edge.ori[1]
-                    next_v, seq, final_edge_seq = simplify_path(v, ori)
-                    merge(v, next_v, seq, v.seq, final_edge_seq)
-                    if next_v is not None:
+                    next_v, seq, final_edge_seq = simplify_path(self.v[edge.seq2], ori)
+                    if seq:
+                        merge(v, next_v, seq, edge.seq2, final_edge_seq)
+                    if next_v is not None and next_v.seq not in visit:
                         q.append(next_v)
         
-    def output_edges():
+    def output_edges(self):
+        """
+        output contigs, split at each node whose degree is not 2
+        """
+        visit = {}
 
+def write_fa(f, lines):
+    for i,line in enumerate(lines):
+        f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
+        f.write(line)
+
+if __name__ == '__main__':
+    g = DBG(k=63)
+    reads = read_fasta('data/data1/short_1.fasta')
+    reads += read_fasta('data/data1/short_2.fasta')
+    for i,read in enumerate(reads):
+        g.add_read(read)
+        print(i)
+        #if i == 700:
+        #    break
+    g.graph_simplification()
+    path = g.dfs_graph()
+    f = open('debug2.txt','w')
+    write_fa(f, path)
+        
+    
 
         
 
