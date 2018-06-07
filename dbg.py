@@ -89,6 +89,10 @@ class DBG:
         return full_path
 
     def get_contig_wrapper(self, start_node, visit, start_ori):
+
+        def is_self_ring(v):
+            return v.seq in v.out_edge
+
         node_stack = collections.deque()
         node_stack.append((start_node, start_ori))
         contigs = []
@@ -99,7 +103,7 @@ class DBG:
             b = 0
             node, ori = node_stack.pop()
             visit.add((node.seq, ori))
-            print(len(self.v), len(visit), a)
+            #print(len(self.v), len(visit), a)
             for edge in node.out_edge.values():
                 # travel until degree > 2 or degree = 1
 
@@ -114,8 +118,8 @@ class DBG:
                         if (v.seq, t_ori) in visit:
                             break
                         visit.add((v.seq, t_ori))
-                        if len(v.out_edge) != 2:
-                            if len(v.out_edge) > 2:
+                        if len(v.out_edge) != 2 or is_self_ring(v):
+                            if len(v.out_edge) >= 2:
                                 node_stack.append((v, t_ori))
                             break
                         else:
@@ -157,6 +161,8 @@ class DBG:
         while True:
             c += 1
             print(c,len(self.v),len(visit))
+            if (len(visit) >= len(self.v)):
+                break
             start_node = None
             for k in self.v:
                 if (k,'1') not in visit and len(self.v[k].out_edge)!=2:
@@ -184,11 +190,11 @@ def write_fa(f, lines):
         f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
         #f.write('>xxx\n')
         f.write(line.strip()+'\n')
-        f.write('>xxx\n')
-        f.write(rev_complement(line.strip())+'\n')
+        #f.write('>xxx\n')
+        #f.write(rev_complement(line.strip())+'\n')
 
 if __name__ == '__main__':
-    g = DBG(k=51)
+    g = DBG(k=25)
     reads = read_fasta('data/data2/short_1.fasta')
     reads += read_fasta('data/data2/short_2.fasta')
     #reads = ['ATCGA']
@@ -197,7 +203,6 @@ if __name__ == '__main__':
         print(i)
         #if i == 10000:
         #    break
-    #contigs = g.graph_simplification()
     contigs = g.get_contig_graph()
     #contigs = g.dfs_graph()
     f = open('result/data2.txt','w')
