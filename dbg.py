@@ -76,22 +76,56 @@ class DBG:
 
     def dfs_wrapper(self, start_node, visit, start_ori):
         #path = list(start_node.seq[:-1])
-        full_path = list(start_node.seq[:-1])
+        paths = []
+        prefix = start_node.seq[:-1]
         node_stack = collections.deque()
-        node_stack.append((start_node, start_ori))
+        seqpos = 0
+        node_stack.append((start_node, start_ori, seqpos))
+        seq = []
         while len(node_stack):
             node, ori = node_stack.pop()
-            full_path.extend(list(node.seq[self.k-1:]))
-            visit[node.seq] = True
+            paths.append(prefix + ''.join(seq))
+            visit.add((node.seq, ori))
+            seq.append(compif(node.seq,ori)[-1])
             for edge in node.out_edge.values():
-                if edge.ori[0] == ori and edge.seq2 not in visit:
+                flg = False
+                if edge.ori[0] == ori and (edge.seq2,edge.ori[1]) not in visit:
                     node_stack.append((self.v[edge.seq2], edge.ori[1]))
-        return full_path
+                    flg = True
+                if not flg:
+                    paths.append(''.join(seq))
+        return paths
+
 
     def get_contig_wrapper(self, start_node, visit, start_ori):
 
         def is_self_ring(v):
             return v.seq in v.out_edge
+
+        def select_valid_path(v, t_ori):
+            """
+            select a valid path to traverse
+            """
+            if is_self_ring(v):
+                return None
+            cmpt_edge = []
+            for edge in v.out_edge.values():
+                if edge.ori[0] == t_ori:
+                    cmpt_edge.append(edge)
+            # un-ambiguous path
+            if len(cmpt_edge) == 1:
+                return cmpt_edge[0]
+            
+            elif len(cmpt_edge) >= 2:
+                #if cmpt_edge[0].cov == 1 and cmpt_edge[1].cov > 1:
+                #    return cmpt_edge[1]
+                #elif cmpt_edge[1].cov == 1 and cmpt_edge[0].cov > 1:
+                #    return cmpt_edge[0]
+                cmpt_edge = sorted(cmpt_edge, key=lambda x:x.cov)
+                if cmpt_edge[-2].cov == 1:
+                    return cmpt_edge[-1]
+            
+            return None
 
         node_stack = collections.deque()
         node_stack.append((start_node, start_ori))
@@ -108,6 +142,7 @@ class DBG:
                 # travel until degree > 2 or degree = 1
 
                 if edge.ori[0] == ori:
+                    prefix = compif(edge.seq1, ori)
                     path = []
                     t_ori = edge.ori[1]
                     v = self.v[edge.seq2]
@@ -118,36 +153,42 @@ class DBG:
                         if (v.seq, t_ori) in visit:
                             break
                         visit.add((v.seq, t_ori))
-                        if len(v.out_edge) != 2 or is_self_ring(v):
+                        sel_edge = select_valid_path(v, t_ori)
+                        if sel_edge is None:
                             if len(v.out_edge) >= 2:
                                 node_stack.append((v, t_ori))
                             break
                         else:
-                            next_v = None
-                            for edge_ in v.out_edge.values():
-                                if edge_.ori[0] == t_ori:
-                                    next_v = self.v[edge_.seq2]
-                                    t_ori = edge_.ori[1]
-                                    break
-                            if next_v is None:
-                                break
-                            v = next_v
-                    contigs.append(compif(node.seq, ori) + ''.join(path))
+                            v = self.v[sel_edge.seq2]
+                            t_ori = sel_edge.ori[1]
+                    contigs.append(prefix + ''.join(path))
         return contigs           
 
     def dfs_graph(self):
-        visit = {}
+        visit = set()
         all_path = []
         while True:
             start_node = None
             for k in self.v:
-                if k not in visit:
+                if (k,'1') not in visit and len(self.v[k].out_edge)!=2:
                     start_node = self.v[k]
                     break
             if not start_node:
                 break
             path = self.dfs_wrapper(start_node, visit, '1')
-            all_path.append(''.join(path)+'\n')
+            all_path.extend(path)
+        
+        while True:
+            start_node = None
+            for k in self.v:
+                if(k,'2') not in visit and len(self.v[k].out_edge)!=2:
+                    start_node = self.v[k]
+                    break
+            if not start_node:
+                break
+            path = self.dfs_wrapper(start_node, visit, '2')
+            all_path.extend(path)
+        
         return all_path
         
 
@@ -161,7 +202,7 @@ class DBG:
         while True:
             c += 1
             print(c,len(self.v),len(visit))
-            if (len(visit) >= len(self.v)):
+            if c == 1000:
                 break
             start_node = None
             for k in self.v:
@@ -172,7 +213,11 @@ class DBG:
                 break
             paths = self.get_contig_wrapper(start_node, visit, '1')
             all_path.extend(paths)
-
+        ''' 
+        while True:
+            c += 1
+            print(c,len(self.v),len(visit))
+            start_node = None
             for k in self.v:
                 if (k,'2') not in visit and len(self.v[k].out_edge)!=2:
                     start_node = self.v[k]
@@ -181,12 +226,12 @@ class DBG:
                 break
             paths = self.get_contig_wrapper(start_node, visit, '2')
             all_path.extend(paths)
+        '''     
         return all_path
 
 def write_fa(f, lines):
     for i,line in enumerate(lines):
-        #if len(line) < 100:
-        #    continue
+        #if len(line.strip()) != 51:
         f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
         #f.write('>xxx\n')
         f.write(line.strip()+'\n')
@@ -194,14 +239,16 @@ def write_fa(f, lines):
         #f.write(rev_complement(line.strip())+'\n')
 
 if __name__ == '__main__':
-    g = DBG(k=25)
+    g = DBG(k=63)
     reads = read_fasta('data/data2/short_1.fasta')
     reads += read_fasta('data/data2/short_2.fasta')
-    #reads = ['ATCGA']
+    #reads = ['TTCTACTATCGCTGTGGGATGGATCATAAA',
+    #       #  'TTCTACTATCGCTGTGGGATGGATCATCCC',
+    #         'AAATTCCCCCCCCCCCCCC']
     for i,read in enumerate(reads):
         g.add_read(read)
         print(i)
-        #if i == 10000:
+        #if i == 100:
         #    break
     contigs = g.get_contig_graph()
     #contigs = g.dfs_graph()

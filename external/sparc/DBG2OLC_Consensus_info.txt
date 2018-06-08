@@ -1,111 +1,390 @@
 >Backbone_1
-1671 length 48 xxx
-3545 length 47 xxx
-3461 length 51 xxx
-1785 length 51 xxx
-1799 length 51 xxx
-1803 length 47 xxx
-1809 length 51 xxx
-1869 length 51 xxx
-1917 length 51 xxx
-1955 length 45 xxx
-long_read_109/1
+2079 length 100 xxx
+1961 length 303 xxx
+1155 length 100 xxx
+1781 length 480 xxx
+1077 length 181 xxx
+1455 length 115 xxx
+long_read_2/1
+long_read_16/1
+long_read_69/1
+long_read_92/1
+long_read_130/1
+long_read_146/1
+long_read_147/1
+long_read_163/1
+long_read_184/1
+long_read_211/1
+long_read_311/1
+long_read_363/1
+long_read_395/1
+long_read_439/1
+long_read_456/1
+long_read_477/1
 >Backbone_2
-4821 length 58 xxx
-507 length 39 xxx
-563 length 49 xxx
-569 length 53 xxx
-599 length 38 xxx
-4657 length 43 xxx
-703 length 51 xxx
-805 length 48 xxx
-851 length 39 xxx
-943 length 51 xxx
-4337 length 72 xxx
-long_read_31/1
-long_read_48/1
-long_read_93/1
-long_read_241/1
-long_read_301/1
->Backbone_3
-1493 length 61 xxx
-1471 length 44 xxx
-1435 length 51 xxx
-1385 length 46 xxx
-1293 length 44 xxx
-4013 length 38 xxx
-4033 length 47 xxx
-4123 length 40 xxx
-1081 length 43 xxx
->Backbone_4
-9159 length 61 xxx
-9185 length 44 xxx
-6835 length 51 xxx
-6757 length 46 xxx
-6673 length 44 xxx
-9403 length 38 xxx
-6539 length 47 xxx
-12959 length 40 xxx
->Backbone_5
-411 length 46 xxx
-4869 length 47 xxx
-353 length 48 xxx
-4925 length 40 xxx
-4911 length 40 xxx
-219 length 60 xxx
-5039 length 39 xxx
-143 length 51 xxx
-77 length 41 xxx
-5193 length 45 xxx
-6441 length 69 xxx
-long_read_48/1
-long_read_472/1
->Backbone_6
-9633 length 37 xxx
-9653 length 51 xxx
-12737 length 68 xxx
-12651 length 39 xxx
-12649 length 73 xxx
-12631 length 39 xxx
-9787 length 48 xxx
-9811 length 76 xxx
-12601 length 36 xxx
-9885 length 51 xxx
-10033 length 53 xxx
-12405 length 49 xxx
-12389 length 85 xxx
-12355 length 39 xxx
-12289 length 58 xxx
+2213 length 343 xxx
+1403 length 110 xxx
+2099 length 100 xxx
+1409 length 615 xxx
+2089 length 146 xxx
+1401 length 100 xxx
+1083 length 476 xxx
+1483 length 412 xxx
+1089 length 131 xxx
+1269 length 100 xxx
+2691 length 163 xxx
+long_read_8/1
+long_read_23/1
+long_read_42/1
+long_read_49/1
+long_read_81/1
+long_read_84/1
+long_read_107/1
+long_read_114/1
+long_read_127/1
+long_read_136/1
+long_read_170/1
+long_read_171/1
+long_read_207/1
+long_read_211/1
+long_read_234/1
+long_read_246/1
+long_read_260/1
+long_read_271/1
+long_read_281/1
+long_read_285/1
+long_read_286/1
+long_read_293/1
+long_read_294/1
+long_read_309/1
+long_read_312/1
 long_read_352/1
+long_read_357/1
+long_read_384/1
+long_read_391/1
+long_read_434/1
+long_read_437/1
 long_read_462/1
->Backbone_7
-7109 length 48 xxx
-8935 length 47 xxx
-8891 length 51 xxx
-7191 length 51 xxx
-7199 length 51 xxx
-7205 length 47 xxx
-7211 length 51 xxx
-8777 length 51 xxx
-8745 length 51 xxx
-7351 length 45 xxx
+long_read_484/1
+long_read_492/1
+>Backbone_3
+1493 length 179 xxx
+1987 length 248 xxx
+1453 length 199 xxx
+1751 length 359 xxx
+2471 length 154 xxx
+801 length 352 xxx
+1903 length 88 xxx
+309 length 204 xxx
+953 length 100 xxx
+2377 length 402 xxx
+2097 length 268 xxx
+331 length 100 xxx
+long_read_27/1
+long_read_32/1
+long_read_35/1
+long_read_45/1
+long_read_56/1
+long_read_57/1
+long_read_79/1
+long_read_82/1
+long_read_102/1
+long_read_110/1
+long_read_132/1
+long_read_137/1
+long_read_138/1
+long_read_181/1
+long_read_182/1
+long_read_193/1
+long_read_245/1
+long_read_264/1
+long_read_277/1
+long_read_302/1
+long_read_314/1
+long_read_339/1
+long_read_397/1
+long_read_402/1
+long_read_409/1
+long_read_412/1
+long_read_440/1
+long_read_448/1
+long_read_457/1
+long_read_467/1
+long_read_489/1
+long_read_493/1
+long_read_495/1
+>Backbone_4
+369 length 556 xxx
+1657 length 309 xxx
+2331 length 100 xxx
+2411 length 100 xxx
+811 length 252 xxx
+507 length 600 xxx
+long_read_24/1
+long_read_75/1
+long_read_98/1
+long_read_134/1
+long_read_144/1
+long_read_208/1
+long_read_212/1
+long_read_243/1
+long_read_255/1
+long_read_288/1
+long_read_323/1
+long_read_335/1
+long_read_370/1
+long_read_422/1
+long_read_427/1
+long_read_445/1
+long_read_466/1
+>Backbone_5
+1129 length 254 xxx
+1737 length 99 xxx
+1735 length 550 xxx
+477 length 330 xxx
+2323 length 165 xxx
+997 length 181 xxx
+1459 length 322 xxx
+1767 length 383 xxx
+373 length 463 xxx
+371 length 93 xxx
+1319 length 152 xxx
+2381 length 521 xxx
+1389 length 289 xxx
+1387 length 1129 xxx
+1093 length 202 xxx
+365 length 293 xxx
+1577 length 359 xxx
+long_read_25/1
+long_read_28/1
+long_read_30/1
+long_read_31/1
+long_read_34/1
+long_read_48/1
+long_read_54/1
+long_read_59/1
+long_read_74/1
+long_read_85/1
+long_read_90/1
+long_read_93/1
+long_read_117/1
+long_read_121/1
+long_read_128/1
+long_read_133/1
+long_read_139/1
+long_read_150/1
+long_read_165/1
+long_read_178/1
+long_read_179/1
+long_read_189/1
+long_read_200/1
+long_read_210/1
+long_read_217/1
+long_read_235/1
+long_read_239/1
+long_read_240/1
+long_read_241/1
+long_read_242/1
+long_read_244/1
+long_read_252/1
+long_read_265/1
+long_read_272/1
+long_read_280/1
+long_read_301/1
+long_read_303/1
+long_read_306/1
+long_read_326/1
+long_read_344/1
+long_read_368/1
+long_read_374/1
+long_read_377/1
+long_read_379/1
+long_read_383/1
+long_read_394/1
+long_read_411/1
+long_read_418/1
+long_read_431/1
+long_read_449/1
+long_read_459/1
+long_read_463/1
+long_read_464/1
+long_read_472/1
+long_read_473/1
+long_read_480/1
+long_read_487/1
+long_read_496/1
+>Backbone_6
+1469 length 553 xxx
+2209 length 308 xxx
+2747 length 211 xxx
+161 length 145 xxx
+1125 length 255 xxx
+long_read_36/1
+long_read_50/1
+long_read_72/1
+long_read_89/1
 long_read_99/1
+long_read_168/1
+long_read_201/1
+long_read_223/1
+long_read_266/1
+long_read_267/1
+long_read_284/1
+long_read_406/1
+long_read_417/1
+long_read_471/1
+long_read_485/1
+>Backbone_7
+1005 length 90 xxx
+2133 length 142 xxx
+2319 length 120 xxx
+1931 length 263 xxx
+2561 length 252 xxx
+long_read_39/1
+long_read_51/1
+long_read_122/1
+long_read_125/1
+long_read_167/1
+long_read_204/1
+long_read_238/1
+long_read_269/1
+long_read_340/1
+long_read_356/1
+long_read_461/1
 >Backbone_8
-13213 length 40 xxx
-13211 length 51 xxx
-14169 length 51 xxx
-14247 length 51 xxx
-14225 length 51 xxx
-13131 length 40 xxx
-13005 length 51 xxx
-15611 length 57 xxx
-24715 length 36 xxx
+2213 length 343 xxx
+1327 length 744 xxx
+2523 length 85 xxx
+1125 length 255 xxx
+long_read_36/1
+long_read_50/1
+long_read_72/1
+long_read_81/1
+long_read_89/1
+long_read_99/1
+long_read_112/1
+long_read_127/1
+long_read_142/1
+long_read_196/1
+long_read_201/1
+long_read_223/1
+long_read_266/1
+long_read_294/1
+long_read_357/1
+long_read_384/1
+long_read_406/1
+long_read_434/1
 >Backbone_9
-10197 length 46 xxx
-12173 length 40 xxx
-12157 length 40 xxx
-10369 length 60 xxx
-12019 length 39 xxx
-11959 length 51 xxx
-10503 length 41 xxx
-11761 length 69 xxx
+431 length 94 xxx
+1677 length 180 xxx
+1545 length 141 xxx
+1113 length 84 xxx
+long_read_141/1
+long_read_221/1
+long_read_435/1
+>Backbone_10
+2199 length 79 xxx
+1219 length 87 xxx
+859 length 82 xxx
+1811 length 100 xxx
+1289 length 89 xxx
+2237 length 162 xxx
+long_read_64/1
+long_read_94/1
+long_read_176/1
+long_read_230/1
+long_read_275/1
+long_read_388/1
+long_read_446/1
+long_read_476/1
+>Backbone_11
+2047 length 99 xxx
+2041 length 89 xxx
+1697 length 170 xxx
+1931 length 263 xxx
+2319 length 120 xxx
+999 length 865 xxx
+long_read_39/1
+long_read_51/1
+long_read_122/1
+long_read_125/1
+long_read_167/1
+long_read_204/1
+long_read_238/1
+long_read_269/1
+long_read_340/1
+long_read_356/1
+long_read_461/1
+>Backbone_12
+1961 length 303 xxx
+2507 length 423 xxx
+1793 length 290 xxx
+1795 length 187 xxx
+2691 length 163 xxx
+1269 length 100 xxx
+1275 length 113 xxx
+long_read_2/1
+long_read_16/1
+long_read_42/1
+long_read_49/1
+long_read_69/1
+long_read_163/1
+long_read_171/1
+long_read_174/1
+long_read_207/1
+long_read_211/1
+long_read_260/1
+long_read_281/1
+long_read_309/1
+long_read_311/1
+long_read_322/1
+long_read_363/1
+long_read_391/1
+long_read_404/1
+long_read_477/1
+long_read_484/1
+>Backbone_13
+1097 length 129 xxx
+1559 length 77 xxx
+329 length 251 xxx
+1717 length 185 xxx
+2273 length 176 xxx
+227 length 112 xxx
+2267 length 194 xxx
+1129 length 254 xxx
+long_read_65/1
+long_read_101/1
+long_read_179/1
+long_read_217/1
+long_read_218/1
+long_read_240/1
+long_read_242/1
+long_read_244/1
+long_read_252/1
+long_read_297/1
+long_read_306/1
+long_read_436/1
+long_read_480/1
+>Backbone_14
+2075 length 100 xxx
+2693 length 371 xxx
+231 length 470 xxx
+2583 length 96 xxx
+2193 length 283 xxx
+long_read_40/1
+long_read_258/1
+long_read_262/1
+>Backbone_15
+1447 length 956 xxx
+2727 length 615 xxx
+2643 length 102 xxx
+2417 length 100 xxx
+long_read_180/1
+long_read_278/1
+long_read_351/1
+long_read_375/1
+long_read_407/1
+long_read_450/1
+long_read_475/1
+long_read_478/1
+long_read_479/1

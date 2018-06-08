@@ -1,29 +1,59 @@
 >Backbone_1
-long_read_3/1 
+long_read_2/1 
 
 >Backbone_2
-long_read_117/1 
-long_read_31/1 
+long_read_294/1 
+long_read_286/1 
+long_read_8/1 
 
 >Backbone_3
-long_read_377/1 
+long_read_468/1 
+long_read_402/1 
+long_read_314/1 
+long_read_412/1 
+long_read_57/1 
 
 >Backbone_4
-long_read_253/1 
+long_read_144/1 
+long_read_24/1 
 
 >Backbone_5
+long_read_242/1 
 long_read_165/1 
+long_read_379/1 
+long_read_34/1 
+long_read_150/1 
+long_read_25/1 
+long_read_459/1 
 
 >Backbone_6
-long_read_312/1 
-long_read_352/1 
+long_read_173/1 
 
 >Backbone_7
-long_read_266/1 
+long_read_167/1 
 
 >Backbone_8
-long_read_455/1 
+long_read_81/1 
 
 >Backbone_9
-long_read_404/1 
+long_read_96/1 
+
+>Backbone_10
+long_read_257/1 
+
+>Backbone_11
+long_read_356/1 
+
+>Backbone_12
+long_read_163/1 
+
+>Backbone_13
+long_read_237/1 
+
+>Backbone_14
+long_read_261/1 
+
+>Backbone_15
+long_read_375/1 
+long_read_450/1 
 
