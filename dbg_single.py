@@ -130,6 +130,7 @@ class DBG:
         visit = set()
         all_path = []
         c = 0
+        """
         while True:
             c += 1
             print(c,len(self.v),len(visit))
@@ -144,19 +145,27 @@ class DBG:
                 break
             paths = self.get_contig_wrapper(start_node, visit)
             all_path.extend(paths)
+        """
+        for v in self.v:
+            if v not in visit and len(self.v[v].out_edge) != 2:
+                start_node = self.v[v]
+                paths = self.get_contig_wrapper(start_node, visit)
+                all_path.extend(paths)
+                c += 1
+                print(c,len(self.v),len(visit))
         return all_path
 
 def write_fa(f, lines):
     for i,line in enumerate(lines):
-            if len(line.strip()) > 100:
+            if len(line.strip()) > 50:
                 f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
                 f.write(line.strip()+'\n')
 
 
 if __name__ == '__main__':
     g = DBG(k=51)
-    reads = read_fasta('data/data2/short_1.fasta')
-    reads += read_fasta('data/data2/short_2.fasta')
+    reads = read_fasta('data/data3/short_1.fasta')
+    reads += read_fasta('data/data3/short_2.fasta')
     #reads = ['TTCTACTATCGCTGTGGGATGGATCATAAA',
            #  'TTCTACTATCGCTGTGGGATGGATCATCCC',
     #         'AAATTCCCCCCCCCCCCCC']
@@ -167,5 +176,5 @@ if __name__ == '__main__':
         #    break
     contigs = g.get_contig_graph()
     #contigs = g.dfs_graph()
-    f = open('result/data2_contig.txt','w')
+    f = open('result/data3_contig.txt','w')
     write_fa(f, contigs)

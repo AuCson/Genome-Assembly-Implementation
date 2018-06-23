@@ -1,14 +1,19 @@
 import argparse
 
-def filter_line(l, thres=100):
+def filter_line(l, thres=100, chunk=0):
     i = 0
     ret = []
     while i < len(l):
         header = l[i]
         seq = l[i+1]
-        if len(seq.strip()) <= thres:
-            ret.append(header)
-            ret.append(seq)
+        if len(seq.strip()) >= thres:
+            if not chunk:
+                ret.append(header)
+                ret.append(seq)
+            else:
+                for j in range(0, len(seq),chunk- 1):
+                    ret.append(header)
+                    ret.append(seq[j:min(j+chunk, len(seq))].strip()+'\n')
         i += 2
     return ret
 
@@ -31,16 +36,22 @@ def concat(l, fo):
 
 def merge(fa, fb, fo):
     l = fa.readlines()
-    la = filter_line(l, thres=1000000)
-    lb = filter_line(fb.readlines(), thres=10)
+    la = filter_line(l, thres=0)
+    lb = filter_line(fb.readlines(), thres=0, chunk=50)
     #assert(la == l and lb == [] and 1)
 
     ret = la + lb
     fo.writelines(ret)
 
+def cutline(fa, fo):
+    l = fa.readlines()
+    ret = filter_line(l, 0, 100)
+    fo.writelines(ret)
+
 if __name__ == '__main__':
-    f1 = open('result/data_soap2.txt')
-    f2 = open('result/data2_contig.txt')
-    fo = open('result/data2_merge.txt','w')
-    merge(f1, f2, fo)
-    #concat(f1.readlines(), fo)
+    #f1 = open('result/data_soap3.txt')
+    f2 = open('result/data3_backbone.txt')
+    fo = open('result/data3_cat.txt','w')
+    #merge(f1, f2, fo)
+    #cutline(f2, fo)
+    concat(f2.readlines(), fo)
