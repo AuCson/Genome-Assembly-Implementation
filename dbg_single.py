@@ -66,6 +66,24 @@ class DBG:
             self.add_edge(rev_complement(kmer2), rev_complement(kmer1))
 
 
+    def dfs_wrapper(self, start_node, visit, ignore_low_cov=False):
+        path = list(start_node.seq[:-1])
+        node_stack = collections.deque()
+        node_stack.append(start_node)
+        while len(node_stack):
+            node = node_stack.pop()
+            path.append(node.seq[-1])
+            if node.seq not in visit:
+                visit[node.seq] = 1
+            else:
+                visit[node.seq] += 1
+            for edge in node.out_edge.values():
+                if not ignore_low_cov:
+                    if edge.seq2 not in visit or self.v[edge.seq2].cov > visit[edge.seq2]:
+                        node_stack.append(self.v[edge.seq2])
+
+        return path
+
     def get_contig_wrapper(self, start_node, visit):
 
         def is_self_ring(v):
@@ -84,7 +102,8 @@ class DBG:
             
             elif len(cmpt_edge) >= 2:
                 cmpt_edge = sorted(cmpt_edge, key=lambda x:x.cov)
-                if cmpt_edge[-1].cov > cmpt_edge[-2].cov:
+                if cmpt_edge[-1].cov > cmpt_edge[-2].cov and cmpt_edge[-1].cov >= 2:
+                #if cmpt_edge[-2].cov == 1:
                     return cmpt_edge[-1]
                        
 
@@ -107,6 +126,7 @@ class DBG:
                 v = self.v[edge.seq2]
                 while True:
                     b += 1
+
                     path.append(v.seq[-1])
                     if v.seq in visit:
                         break
@@ -122,6 +142,18 @@ class DBG:
                 flg = False
         return contigs           
 
+    def dfs_graph(self):
+        visit = {}
+        all_path = []
+        c = 0
+
+        for k in self.v:
+            if k not in visit and len(self.v[k].out_edge)!=2:
+                start_node = self.v[k]
+                path = self.dfs_wrapper(start_node, visit)
+                all_path.append(''.join(path))
+        all_path.sort(key=lambda x:-len(x))
+        return all_path
 
     def get_contig_graph(self):
         """
@@ -130,22 +162,6 @@ class DBG:
         visit = set()
         all_path = []
         c = 0
-        """
-        while True:
-            c += 1
-            print(c,len(self.v),len(visit))
-            if c > 2000:
-                break
-            start_node = None
-            for k in self.v:
-                if k not in visit and len(self.v[k].out_edge)!=2:
-                    start_node = self.v[k]
-                    break
-            if not start_node:
-                break
-            paths = self.get_contig_wrapper(start_node, visit)
-            all_path.extend(paths)
-        """
         for v in self.v:
             if v not in visit and len(self.v[v].out_edge) != 2:
                 start_node = self.v[v]
@@ -163,9 +179,9 @@ def write_fa(f, lines):
 
 
 if __name__ == '__main__':
-    g = DBG(k=51)
-    reads = read_fasta('data/data3/short_1.fasta')
-    reads += read_fasta('data/data3/short_2.fasta')
+    g = DBG(k=17)
+    reads = read_fasta('data/data2/short_1.fasta')
+    reads += read_fasta('data/data2/short_2.fasta')
     #reads = ['TTCTACTATCGCTGTGGGATGGATCATAAA',
            #  'TTCTACTATCGCTGTGGGATGGATCATCCC',
     #         'AAATTCCCCCCCCCCCCCC']
@@ -176,5 +192,5 @@ if __name__ == '__main__':
         #    break
     contigs = g.get_contig_graph()
     #contigs = g.dfs_graph()
-    f = open('result/data3_contig.txt','w')
+    f = open('result/data2_contig17.txt','w')
     write_fa(f, contigs)

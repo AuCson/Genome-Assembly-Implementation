@@ -1,2 +1,2 @@
 Total Kmers: 494000
-Matching Unique Kmers: 21531
+Matching Unique Kmers: 8277

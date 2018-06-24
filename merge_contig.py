@@ -34,7 +34,7 @@ def concat(l, fo):
     fo.writelines(ret)
         
 
-def merge(fa, fb, fo):
+def cat(fa, fb, fo):
     l = fa.readlines()
     la = filter_line(l, thres=0)
     lb = filter_line(fb.readlines(), thres=0, chunk=50)
@@ -48,10 +48,18 @@ def cutline(fa, fo):
     ret = filter_line(l, 0, 100)
     fo.writelines(ret)
 
+def extend(fa, fo):
+    for l in fa.readlines():
+        if len(l) > 1000:
+            l = l.strip() + ''.join(['A'] * 500) + '\n'
+            fo.write(l)
+        else:
+            fo.write(l)
+
 if __name__ == '__main__':
     #f1 = open('result/data_soap3.txt')
-    f2 = open('result/data3_backbone.txt')
-    fo = open('result/data3_cat.txt','w')
+    f2 = open('result/full4_contig.txt')
+    fo = open('result/data4_cat.txt','w')
     #merge(f1, f2, fo)
     #cutline(f2, fo)
-    concat(f2.readlines(), fo)
+    extend(f2, fo)

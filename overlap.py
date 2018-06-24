@@ -23,6 +23,45 @@ def backward(path, i, j):
     }
     return d[path[i,j]]
 
+def approximate_find_prefix(pat, seq, min_overlap=1):
+    """
+    find an approximate overlapping sequence. 
+    """
+
+    lp, ls = len(pat), len(seq)
+    dp = np.zeros((lp+1, ls+1), dtype=np.int32)
+    max_dp = -1
+    max_idx = 0,0
+    score = np.full((lp+1, ls+1), 1e10)
+    path = np.zeros((lp+1, ls+1), dtype=np.int32) # 1 left-up; 2 left; 3 up;
+    for i in range(score.shape[0]):
+        score[i,0] = 0 # to ensuer prefix match(of seq)
+    
+    k = 1
+    #while k <= min_overlap:
+    #    i = score.shape[0] - 1 - min_overlap + k
+    #    for j in range(0, k):
+    #        score[i,j] = 1e10
+    #    k += 1
+
+    i,j = 1,1
+    while i <= lp:
+        j = 1
+        while j <= ls:
+            dp[i,j] = dp[i-1, j] + 1
+            path[i, j] = 2
+            if dp[i, j-1] + 1 < dp[i,j]:
+                dp[i,j] = dp[i, j-1] + 1
+                path[i,j] = 3
+            if pat[i-1] == seq[i-1] and dp[i-1,j-1] < dp[i,j]:
+                dp[i,j] = dp[i-1, j-1]
+                path[i,j] = 1
+            j += 1
+        i += 1
+            
+    min_idx = np.argmin(dp[-1])
+    p = find_back_dp(path, dp.shape[0]-1, min_idx)
+    
 def approximate_find(pat, seq, TOL=2):
     """
     find an approximate overlapping sequence. 
@@ -67,10 +106,10 @@ def approximate_find(pat, seq, TOL=2):
 def main():
     fa = read_fasta('./data/data1/graph_prefix.contig')
     fb = read_fasta('./data/data1/long.fasta')
-    print(len(fa[-1]),len(fb[0]))
-    a = time.time()
-    approximate_find(fa[-1],fb[0])
-    print(time.time() - a)
+    print(len(fa[0]),len(fb[0]))
+    for r in fb:
+        approximate_find(fa[0],r)
+
 
 if __name__ == '__main__':
     main()

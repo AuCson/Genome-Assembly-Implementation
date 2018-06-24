@@ -176,33 +176,18 @@ class DBG:
         visit = set()
         all_path = []
         c = 0
-        while True:
-            c += 1
-            print(c)
-            if c == 1000: break
-            start_node = None
-            for k in self.v:
-                if (k,'1') not in visit and len(self.v[k].out_edge)!=2:
-                    start_node = self.v[k]
-                    break
-            if not start_node:
-                break
-            path = self.dfs_wrapper(start_node, visit, '1')
-            all_path.append(''.join(path))
-        c = 0
-        while True:
-            c += 1
-            print(c)
-            if c == 1000: break
-            start_node = None
-            for k in self.v:
-                if(k,'2') not in visit and len(self.v[k].out_edge)!=2:
-                    start_node = self.v[k]
-                    break
-            if not start_node:
-                break
-            path = self.dfs_wrapper(start_node, visit, '2')
-            all_path.append(''.join(path))
+
+        for k in self.v:
+            if (k,1) not in visit and len(self.v[k].out_edge)!=2:
+                start_node = self.v[k]
+                path = self.dfs_wrapper(start_node, visit, '1')
+                all_path.append(''.join(path))
+
+        for k in self.v:
+            if (k,2) not in visit and len(self.v[k].out_edge)!=2:
+                start_node = self.v[k]
+                path = self.dfs_wrapper(start_node, visit, '1')
+                all_path.append(''.join(path))
         
         return all_path
         
