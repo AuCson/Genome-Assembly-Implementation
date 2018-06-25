@@ -1,23 +1,82 @@
 >Backbone_1
- len 1708 xxx
- len 1456 xxx
- len 202 xxx
- len 962 xxx
- len 441 xxx
- len 397 xxx
- len 215 xxx
- len 301 xxx
- len 300 xxx
- len 1386 xxx
- len 488 xxx
- len 368 xxx
- len 426 xxx
- len 287 xxx
- len 316 xxx
- len 347 xxx
+2669 length 52 xxx
+2679 length 53 xxx
+2819 length 80 xxx
+2809 length 78 xxx
+2861 length 101 xxx
+2925 length 156 xxx
+2725 length 60 xxx
+2859 length 101 xxx
+2821 length 81 xxx
+2833 length 87 xxx
+2811 length 78 xxx
+2879 length 109 xxx
+2697 length 55 xxx
+2823 length 81 xxx
+2675 length 52 xxx
+2687 length 54 xxx
+2667 length 52 xxx
+2751 length 64 xxx
+2837 length 88 xxx
+2873 length 107 xxx
+2777 length 68 xxx
+2863 length 103 xxx
+2929 length 169 xxx
+2909 length 132 xxx
+2869 length 105 xxx
+2857 length 98 xxx
+2853 length 98 xxx
+2779 length 68 xxx
+2781 length 69 xxx
+2865 length 104 xxx
+2801 length 75 xxx
+2709 length 58 xxx
+2677 length 52 xxx
+2735 length 62 xxx
+2783 length 69 xxx
+2721 length 60 xxx
+2805 length 77 xxx
+2813 length 79 xxx
+2871 length 107 xxx
+2905 length 125 xxx
+2911 length 134 xxx
+2825 length 82 xxx
+2849 length 96 xxx
+2875 length 108 xxx
+2913 length 135 xxx
+2839 length 90 xxx
+2807 length 78 xxx
+2895 length 119 xxx
+2885 length 115 xxx
+2899 length 122 xxx
+2897 length 122 xxx
+2915 length 137 xxx
+2789 length 71 xxx
+2919 length 142 xxx
+2851 length 97 xxx
+2797 length 73 xxx
+2891 length 117 xxx
+2893 length 118 xxx
+2927 length 165 xxx
+2877 length 108 xxx
+2711 length 59 xxx
+2791 length 72 xxx
+2771 length 66 xxx
+2881 length 109 xxx
+2793 length 72 xxx
+2867 length 104 xxx
+2829 length 85 xxx
+2847 length 95 xxx
+2785 length 70 xxx
+2723 length 60 xxx
+2717 length 60 xxx
+2715 length 60 xxx
+2887 length 116 xxx
+2729 length 61 xxx
 long_read_5/1
 long_read_12/1
 long_read_14/1
+long_read_20/1
 long_read_34/1
 long_read_39/1
 long_read_50/1
@@ -27,6 +86,7 @@ long_read_68/1
 long_read_71/1
 long_read_73/1
 long_read_76/1
+long_read_82/1
 long_read_83/1
 long_read_92/1
 long_read_104/1
@@ -34,12 +94,12 @@ long_read_105/1
 long_read_108/1
 long_read_110/1
 long_read_115/1
-long_read_121/1
 long_read_128/1
 long_read_130/1
 long_read_135/1
 long_read_140/1
 long_read_148/1
+long_read_149/1
 long_read_153/1
 long_read_158/1
 long_read_159/1
@@ -55,95 +115,12 @@ long_read_195/1
 long_read_198/1
 long_read_199/1
 long_read_201/1
-long_read_212/1
 long_read_222/1
 long_read_233/1
-long_read_245/1
 long_read_246/1
 long_read_249/1
 >Backbone_2
- len 1614 xxx
- len 161 xxx
- len 123 xxx
- len 677 xxx
- len 514 xxx
- len 398 xxx
- len 2509 xxx
- len 181 xxx
- len 266 xxx
- len 236 xxx
- len 710 xxx
- len 1608 xxx
- len 150 xxx
-long_read_1/1
-long_read_2/1
-long_read_3/1
-long_read_6/1
-long_read_7/1
-long_read_8/1
-long_read_18/1
-long_read_22/1
-long_read_25/1
-long_read_26/1
-long_read_31/1
-long_read_36/1
-long_read_40/1
-long_read_41/1
-long_read_49/1
-long_read_51/1
-long_read_53/1
-long_read_56/1
-long_read_62/1
-long_read_63/1
-long_read_69/1
-long_read_70/1
-long_read_72/1
-long_read_75/1
-long_read_79/1
-long_read_80/1
-long_read_81/1
-long_read_89/1
-long_read_91/1
-long_read_94/1
-long_read_96/1
-long_read_100/1
-long_read_109/1
-long_read_116/1
-long_read_117/1
-long_read_119/1
-long_read_120/1
-long_read_123/1
-long_read_124/1
-long_read_126/1
-long_read_139/1
-long_read_141/1
-long_read_142/1
-long_read_144/1
-long_read_150/1
-long_read_163/1
-long_read_167/1
-long_read_168/1
-long_read_169/1
-long_read_173/1
-long_read_175/1
-long_read_177/1
-long_read_187/1
-long_read_188/1
-long_read_197/1
-long_read_205/1
-long_read_209/1
-long_read_214/1
-long_read_215/1
-long_read_217/1
-long_read_221/1
-long_read_226/1
-long_read_227/1
-long_read_228/1
-long_read_230/1
-long_read_231/1
-long_read_232/1
-long_read_237/1
-long_read_242/1
-long_read_243/1
-long_read_244/1
-long_read_248/1
+2969 length 1556 xxx
+2719 length 60 xxx
+2731 length 61 xxx
+2923 length 156 xxx

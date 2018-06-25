@@ -1,8 +1,8 @@
 #!/bin/bash
-declare -i kmer=17
-#while ((kmer<=77))
-#do
-contig_path="result/data1_good.txt"
+declare -i kmer=51
+while ((kmer<=77))
+do
+contig_path="result/data1_contig_${kmer}.txt"
 data_dir="data/data1"
 
 cd ./external/dbg2olc/
@@ -14,6 +14,6 @@ cat ${contig_path} ${data_dir}/long.fasta > ./external/sparc/all_ctg.fasta
 cd ./external/sparc
 ./split_and_run_sparc.sh backbone_raw.fasta DBG2OLC_Consensus_info.txt all_ctg.fasta ./consensus_dir
 cd ../../
-cat ./external/sparc/consensus_dir/final_assembly.fasta ${contig_path} > result/full1_good.txt
+cat ./external/sparc/consensus_dir/final_assembly.fasta ${contig_path} > result/full1_contig${kmer}.txt
 let kmer+=2
-#done
+done

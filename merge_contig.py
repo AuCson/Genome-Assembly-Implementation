@@ -24,7 +24,7 @@ def recur_merge(file_list):
     lim = [6000, 7600, 7600, 7600]
     for i,file in enumerate(file_list):
         lines = open(file).readlines()
-        thres = min(max_len-1000,9000)
+        thres = min(max_len-1000,9200)
         l = filter_line(lines, thres)
         ret.extend(l)
         if l:
@@ -36,11 +36,11 @@ def recur_merge(file_list):
 
 
 if __name__ == '__main__':
-    merge = ['full1_contig17.txt','full1_good.txt','full1_contig51.txt','full1_contig53.txt','full1_contig55.txt',
+    merge = ['full1_contig17.txt','full1_good.txt','full1.txt','full1_contig51.txt','full1_contig53.txt','full1_contig55.txt',
     'full1_contig57.txt','full1_contig59.txt','full1_contig61.txt',
     'full1_contig63.txt','full1_contig65.txt','full1_contig67.txt','full1_contig69.txt','full1_contig71.txt',
     'full1_contig73.txt','full1_contig75.txt','full1_contig77.txt']
     merge = ['result/' + _ for _ in merge]
     line = recur_merge(merge)
-    f = open('result/full1_ultramerge2.txt','w')
+    f = open('result/full1_ultramerge.txt','w')
     f.writelines(line)

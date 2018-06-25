@@ -108,8 +108,8 @@ class DBG:
             
             elif len(cmpt_edge) >= 2:
                 cmpt_edge = sorted(cmpt_edge, key=lambda x:x.cov)
-                if len(v.in_edge) == 1:
-                    return cmpt_edge[-1]
+                #if len(v.in_edge) == 1:
+                return cmpt_edge[-1]
                        
 
         node_stack = collections.deque()
@@ -204,6 +204,6 @@ def run(kk):
     write_fa(f, contigs)
 
 if __name__ == '__main__':
-    run(17)
-    #for kk in range(51,79,2):
-    #    run(kk)
+    #run(17)
+    for kk in range(51,79,2):
+        run(kk)
