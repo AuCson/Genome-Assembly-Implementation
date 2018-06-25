@@ -1,65 +1,46 @@
 import argparse
 
-def filter_line(l, thres=100, chunk=0):
+def filter_line(l, thres=100):
     i = 0
     ret = []
     while i < len(l):
         header = l[i]
         seq = l[i+1]
         if len(seq.strip()) >= thres:
-            if not chunk:
-                ret.append(header)
-                ret.append(seq)
-            else:
-                for j in range(0, len(seq),chunk- 1):
-                    ret.append(header)
-                    ret.append(seq[j:min(j+chunk, len(seq))].strip()+'\n')
+            ret.append(header.strip()+'\n')
+            ret.append(seq.strip()+'\n')
         i += 2
     return ret
 
-def concat(l, fo):
-    ret = []
-    seq = ''
-    i = 0
-    while i < len(l):
-        seq += l[i+1].strip()
-        if len(seq) > 6000:
-            ret.append('> %d\n' % len(seq))
-            ret.append(seq + '\n') 
-            seq = ''
-        i += 2
-    if seq:
-        ret.append('> %d\n' % len(seq))
-        ret.append(seq +'\n' )
-    fo.writelines(ret)
-        
-
-def cat(fa, fb, fo):
-    l = fa.readlines()
-    la = filter_line(l, thres=0)
-    lb = filter_line(fb.readlines(), thres=0, chunk=50)
-    #assert(la == l and lb == [] and 1)
-
-    ret = la + lb
-    fo.writelines(ret)
 
 def cutline(fa, fo):
     l = fa.readlines()
-    ret = filter_line(l, 0, 100)
+    ret = filter_line(l,  100)
     fo.writelines(ret)
 
-def extend(fa, fo):
-    for l in fa.readlines():
-        if len(l) > 1000:
-            l = l.strip() + ''.join(['A'] * 500) + '\n'
-            fo.write(l)
-        else:
-            fo.write(l)
+def recur_merge(file_list):
+    ret = []
+    max_len = 0
+    lim = [6000, 7600, 7600, 7600]
+    for i,file in enumerate(file_list):
+        lines = open(file).readlines()
+        thres = min(max_len-1000,9000)
+        l = filter_line(lines, thres)
+        ret.extend(l)
+        if l:
+            ml = max([len(_) for _ in l])
+            if max_len < ml:
+                max_len = ml
+            print(max_len)
+    return ret
+
 
 if __name__ == '__main__':
-    #f1 = open('result/data_soap3.txt')
-    f2 = open('result/full4_contig.txt')
-    fo = open('result/data4_cat.txt','w')
-    #merge(f1, f2, fo)
-    #cutline(f2, fo)
-    extend(f2, fo)
+    merge = ['full1_contig17.txt','full1_good.txt','full1_contig51.txt','full1_contig53.txt','full1_contig55.txt',
+    'full1_contig57.txt','full1_contig59.txt','full1_contig61.txt',
+    'full1_contig63.txt','full1_contig65.txt','full1_contig67.txt','full1_contig69.txt','full1_contig71.txt',
+    'full1_contig73.txt','full1_contig75.txt','full1_contig77.txt']
+    merge = ['result/' + _ for _ in merge]
+    line = recur_merge(merge)
+    f = open('result/full1_ultramerge2.txt','w')
+    f.writelines(line)

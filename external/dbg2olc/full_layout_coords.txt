@@ -1,12 +1,18 @@
 >Backbone_1
-long_read_21/1 
+long_read_20/1 
+long_read_83/1 
+long_read_34/1 
+long_read_110/1 
+long_read_39/1 
+long_read_135/1 
+long_read_5/1 
+long_read_176/1 
+long_read_58/1 
 
 >Backbone_2
-long_read_471/1 
-
->Backbone_3
-long_read_51/1 
-
->Backbone_4
-long_read_233/1 
+long_read_155/1 
+long_read_41/1 
+long_read_214/1 
+long_read_242/1 
+long_read_75/1 
 

@@ -9,6 +9,7 @@ De Brujin Graph
 
 from gene import *
 import collections
+import argparse
 
 class Edge:
     def __init__(self, seq1, seq2):
@@ -22,6 +23,7 @@ class Vertex:
         self.seq = seq
         self.cov = 1
         self.out_edge = {}
+        self.in_edge = {}
 
 class DBG:
     """
@@ -49,6 +51,10 @@ class DBG:
             self.v[kmer1].out_edge[kmer2] = Edge(kmer1, kmer2)
         else:
             self.v[kmer1].out_edge[kmer2].cov += 1
+        if kmer1 not in self.v[kmer2].in_edge:
+            self.v[kmer2].in_edge[kmer1] = Edge(kmer2, kmer1)
+        else:
+            self.v[kmer2].in_edge[kmer1].cov += 1
 
     def add_read(self, read):
         if len(read) <= self.k:
@@ -102,8 +108,7 @@ class DBG:
             
             elif len(cmpt_edge) >= 2:
                 cmpt_edge = sorted(cmpt_edge, key=lambda x:x.cov)
-                if cmpt_edge[-1].cov > cmpt_edge[-2].cov and cmpt_edge[-1].cov >= 2:
-                #if cmpt_edge[-2].cov == 1:
+                if len(v.in_edge) == 1:
                     return cmpt_edge[-1]
                        
 
@@ -126,7 +131,6 @@ class DBG:
                 v = self.v[edge.seq2]
                 while True:
                     b += 1
-
                     path.append(v.seq[-1])
                     if v.seq in visit:
                         break
@@ -141,6 +145,7 @@ class DBG:
                 contigs.append(prefix + ''.join(path))
                 flg = False
         return contigs           
+
 
     def dfs_graph(self):
         visit = {}
@@ -172,16 +177,19 @@ class DBG:
         return all_path
 
 def write_fa(f, lines):
+    lines.sort(key=lambda x: len(x))
     for i,line in enumerate(lines):
             if len(line.strip()) > 50:
                 f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
                 f.write(line.strip()+'\n')
+                #f.write('>{} length {} xxx\n'.format(i*2+1, len(line.strip())))
+                #f.write(rev_complement(line.strip())+'\n')
 
 
-if __name__ == '__main__':
-    g = DBG(k=17)
-    reads = read_fasta('data/data2/short_1.fasta')
-    reads += read_fasta('data/data2/short_2.fasta')
+def run(kk):
+    g = DBG(kk)
+    reads = read_fasta('data/data1/short_1.fasta')
+    reads += read_fasta('data/data1/short_2.fasta')
     #reads = ['TTCTACTATCGCTGTGGGATGGATCATAAA',
            #  'TTCTACTATCGCTGTGGGATGGATCATCCC',
     #         'AAATTCCCCCCCCCCCCCC']
@@ -192,5 +200,10 @@ if __name__ == '__main__':
         #    break
     contigs = g.get_contig_graph()
     #contigs = g.dfs_graph()
-    f = open('result/data2_contig17.txt','w')
+    f = open('result/data1_contig_%d.txt' % kk,'w')
     write_fa(f, contigs)
+
+if __name__ == '__main__':
+    run(17)
+    #for kk in range(51,79,2):
+    #    run(kk)
