@@ -1,4 +1,6 @@
-# Genome-Assembly-Implementation - Course project for Algorithm Design and Analysis
+# Genome Assembly Implementation
+
+This is a course project for Algorithm Design and Analysis in Fudan University.
 
 The pipeline follows paper "Hybrid error correction and de novo assembly of single-molecule sequencing reads".
 
